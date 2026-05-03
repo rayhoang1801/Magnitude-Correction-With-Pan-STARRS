@@ -34,7 +34,6 @@ m31_ebv = 0.062
 
 m31_true, m31_A = calculate_correction(m31_obs, m31_ebv)
 
-# --- DATA FOR A PAN-STARRS DISCOVERY (e.g., PS1-10afx Supernova) ---
 # tps1-10afx supernova: much fainter and more affected by dust
 sn_obs = {'g': 22.50, 'r': 21.80}
 sn_ebv = 0.035 
