@@ -1,0 +1,26 @@
+import healpy as hp
+import matplotlib.pyplot as plt
+from astropy.io import fits
+import numpy as np
+
+# Load the data
+with fits.open('/Users/ray/Downloads/ps1-ebv-4.5kpc.fits') as hdul:
+    data = hdul[1].data
+    # Ensure dust_map is a 1D array of the actual values
+    # In some PS1 fits files, the column name might be 'ebv' or 'best'
+    dust_map = np.array(data['ebv']).flatten()
+
+# Plotting the 2D map
+plt.figure(figsize=(10, 6))
+
+# hp.mollview expects a 1D array where the length is 12 * (nside**2)
+hp.mollview(
+    dust_map, 
+    title="Pan-STARRS Dust Reddening E(B-V)", 
+    unit="mag", 
+    norm="hist", 
+    cmap="inferno"
+)
+
+hp.graticule()
+plt.show()
