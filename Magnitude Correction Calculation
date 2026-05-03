@@ -1,0 +1,52 @@
+import numpy as np
+
+def calculate_correction(observed_mags, ebv_value):
+    """
+    Solves for magnitude difference and true color.
+    ebv_value: The E(B-V) number you get from your PS1 FITS map.
+    observed_mags: A dictionary of {filter: magnitude}
+    """
+    
+    # pan-starrs extinction coefficients
+    # R values = how much light is blocked per unit of E(B-V)
+    R_ps1 = {
+        'g': 3.172,
+        'r': 2.271,
+        'i': 1.682,
+        'z': 1.322,
+        'y': 1.087
+    }
+    
+    corrected_mags = {}
+    extinctions = {}
+    
+    for band, mag in observed_mags.items():
+        # A = R * E(B-V)
+        A = R_ps1[band] * ebv_value
+        extinctions[band] = A
+        corrected_mags[band] = mag - A
+        
+    return corrected_mags, extinctions
+
+# andromeda: observed roughly: g=4.3, r=3.4, dust at m31's location is roughly E(B-V) = 0.062
+m31_obs = {'g': 4.33, 'r': 3.44}
+m31_ebv = 0.062
+
+m31_true, m31_A = calculate_correction(m31_obs, m31_ebv)
+
+# --- DATA FOR A PAN-STARRS DISCOVERY (e.g., PS1-10afx Supernova) ---
+# tps1-10afx supernova: much fainter and more affected by dust
+sn_obs = {'g': 22.50, 'r': 21.80}
+sn_ebv = 0.035 
+
+sn_true, sn_A = calculate_correction(sn_obs, sn_ebv)
+
+# printing out the results
+print("--- Andromeda Galaxy (M31) ---")
+print(f"Observed Color (g-r): {m31_obs['g'] - m31_obs['r']:.3f}")
+print(f"Corrected Color (g-r): {m31_true['g'] - m31_true['r']:.3f}")
+print(f"Magnitude difference in g-band: {m31_A['g']:.3f} mag")
+
+print("\n--- PS1 Supernova Discovery ---")
+print(f"Observed Magnitude (r): {sn_obs['r']:.2f}")
+print(f"Corrected Magnitude (r): {sn_true['r']:.2f}")
