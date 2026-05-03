@@ -3,17 +3,14 @@ import matplotlib.pyplot as plt
 from astropy.io import fits
 import numpy as np
 
-# Load the data
 with fits.open('/Users/ray/Downloads/ps1-ebv-4.5kpc.fits') as hdul:
     data = hdul[1].data
-    # Ensure dust_map is a 1D array of the actual values
-    # In some PS1 fits files, the column name might be 'ebv' or 'best'
+    # ensures that the dust mmaps is a 1d array of the actual values
     dust_map = np.array(data['ebv']).flatten()
 
-# Plotting the 2D map
+plots the 2d map
 plt.figure(figsize=(10, 6))
 
-# hp.mollview expects a 1D array where the length is 12 * (nside**2)
 hp.mollview(
     dust_map, 
     title="Pan-STARRS Dust Reddening E(B-V)", 
