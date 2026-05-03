@@ -1,0 +1,7 @@
+from astropy.table import Table
+catalog = Table.read('/Users/ray/Downloads/ps1-ebv-4.5kpc.fits')
+
+print(catalog. colnames)
+catalog ['nside']
+
+from astropy.io import fits
