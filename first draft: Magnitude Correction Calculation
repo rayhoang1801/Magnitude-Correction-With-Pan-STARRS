@@ -41,11 +41,11 @@ sn_ebv = 0.035
 sn_true, sn_A = calculate_correction(sn_obs, sn_ebv)
 
 # printing out the results
-print("--- Andromeda Galaxy (M31) ---")
+print("Andromeda Galaxy:")
 print(f"Observed Color (g-r): {m31_obs['g'] - m31_obs['r']:.3f}")
 print(f"Corrected Color (g-r): {m31_true['g'] - m31_true['r']:.3f}")
 print(f"Magnitude difference in g-band: {m31_A['g']:.3f} mag")
 
-print("\n--- PS1 Supernova Discovery ---")
+print("\n PS1 Supernova Discovery: ")
 print(f"Observed Magnitude (r): {sn_obs['r']:.2f}")
 print(f"Corrected Magnitude (r): {sn_true['r']:.2f}")
