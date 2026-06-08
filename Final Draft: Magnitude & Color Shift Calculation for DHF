@@ -1,0 +1,35 @@
+def calculate_correction(observed_mags, ebv_value):
+    R_ps1 = {"g": 3.172, "r": 2.271}
+
+    corrected_mags = {}
+    extinctions = {}
+
+    for band, mag in observed_mags.items():
+        A = R_ps1[band] * ebv_value
+        extinctions[band] = A
+        corrected_mags[band] = mag - A
+
+    return corrected_mags, extinctions
+
+
+#color excess = 0.061
+hdf_ebv = 0.061
+
+#observed lines for g & r
+hdf_obs = {"g": 24.50, "r": 24.10}
+
+hdf_true, hdf_A = calculate_correction(hdf_obs, hdf_ebv)
+
+#calculation for observed and true bands of g & r
+observed_color = hdf_obs["g"] - hdf_obs["r"]
+true_color = hdf_true["g"] - hdf_true["r"]
+
+#color shift
+color_shift = observed_color - true_color
+
+#results
+print("Deep Hubble Field:")
+print(f"Observed Color (g-r): {hdf_obs['g'] - hdf_obs['r']:.3f}")
+print(f"Corrected Color (g-r): {hdf_true['g'] - hdf_true['r']:.3f}")
+print(f"Magnitude difference in g-band: {hdf_A['g']:.3f} mag")
+print(f"Color shift: {color_shift:.3f} mag")
